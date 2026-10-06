@@ -7,65 +7,69 @@
     <body>
         <script type="module">
             import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
-//keys for movement
+            
+            //keys for movement
             const keys={};
-window.addEventListener("keydown",function(event) {
-    keys[event.key] =true
-});
-window.addEventListener("keyup",function(event) {
-    keys[event.key] =false
-});
-// World
-const scene = new THREE.Scene();
-// Camera
-const camera = new THREE.PerspectiveCamera(
-75, // field of view
-window.innerWidth / window.innerHeight,
-0.1,
-1000
-);
-// Move camera back so we can see things
-camera.position.z = 5;
-// Renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(
-window.innerWidth,
-window.innerHeight
-);
-document.body.appendChild(renderer.domElement);
-// Cube
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({
-color: 0x00ff00
-});
-const cube = new THREE.Mesh(
-geometry,
-material
-);
-scene.add(cube);
-// Game Loop
-function animate() {
-requestAnimationFrame(animate);
-    if (keys["w"]) {
-        camera.position.z -= 0.1;
-    }
-    if (keys["s"]) {
-        camera.position.z += 0.1;
-    }
-    if (keys["a"]) {
-        camera.position.x -=0.1
-    }
-    if (keys["d"]) {
-        camera.position.x += 0.1
-    }
-    if (keys[" "]) {
-        camera.position.y +=0.1
-    }
-cube.rotation.y += 0.01;
-renderer.render(scene, camera);
-}
-animate();
+            
+            window.addEventListener("keydown",function(event) {
+                keys[event.key] =true
+            });
+            
+            window.addEventListener("keyup",function(event) {
+                keys[event.key] =false
+            
+            });
+
+            // World
+            const scene = new THREE.Scene();
+            
+            // Camera
+            const camera = new THREE.PerspectiveCamera(
+            75, // field of view
+            window.innerWidth / window.innerHeight,
+            0.1,
+            1000
+            );
+            
+            // Move camera back so we can see things
+            camera.position.z = 5;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+            
+            // Cube
+            const geometry = new THREE.BoxGeometry();
+            const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+            
+            // Game Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                    if (keys["w"]) {
+                        camera.position.z -= 0.1;
+                    }
+                    if (keys["s"]) {
+                        camera.position.z += 0.1;
+                    }
+                    if (keys["a"]) {
+                        camera.position.x -=0.1
+                    }
+                    if (keys["d"]) {
+                        camera.position.x += 0.1
+                    }
+                    if (keys[" "]) {
+                        camera.position.y +=0.1
+                    }
+                    if (keys["Shift"]) {
+                        camera.position.y -=0.1
+                    }
+                cube.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
         </script>
-    
     </body>
 </html>
