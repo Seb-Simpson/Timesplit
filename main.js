@@ -63,7 +63,7 @@ scene.add(cube);
 
 // Floor
 const floorGeometry = new THREE.PlaneGeometry(100,100);
-const floorMaterial = new THREE.MeshBasicMaterial({ color:0x00aa00});
+const floorMaterial = new THREE.MeshBasicMaterial({color:0x00aa00});
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
 floor.position.y = -1; 
@@ -72,7 +72,7 @@ scene.add(floor)
 // Game Loop
 function animate() {
     let forwardX = -Math.sin(yaw);
-    let forwardZ = -Math.cos(yaw);
+    let forwardZ = -Math.cos(yaw); // What's this used for @Seb???
         
     // Mouse movement
     if (keys["w"]) {
