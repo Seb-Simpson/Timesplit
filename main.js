@@ -9,11 +9,11 @@ let velocityY = 0;
 let yaw = 0;
 let pitch = 0;
 
-window.addEventListener("keydown",function(event) {
+window.addEventListener("keydown", function(event) {
     keys[event.key] =true
 });
 
-window.addEventListener("keyup",function(event) {
+window.addEventListener("keyup", function(event) {
     keys[event.key] =false
 });
 
