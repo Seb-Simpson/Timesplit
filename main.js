@@ -24,6 +24,10 @@ window.innerWidth / window.innerHeight,
 1000
 );
 player.add(camera)
+document.addEventListener("click", function() {
+    document.body.requestPointerLock();
+})
+})
 window.addEventListener("mousemove",function(event) {
     yaw -= event.movementX *0.001;
     pitch -= event.movementY *0.001;
