@@ -27,7 +27,6 @@ player.add(camera)
 document.addEventListener("click", function() {
     document.body.requestPointerLock();
 })
-})
 window.addEventListener("mousemove",function(event) {
     yaw -= event.movementX *0.001;
     pitch -= event.movementY *0.001;
@@ -46,6 +45,7 @@ window.innerWidth,
 window.innerHeight
 );
 document.body.appendChild(renderer.domElement);
+//Background
 // Cube
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({
@@ -69,9 +69,11 @@ scene.add(floor)
 // Game Loop
 function animate() {
 requestAnimationFrame(animate);
+    let forwardX = -Math.sin(yaw);
+    let forwardZ = -Math.cos(yaw);
     // Mouse movement
     if (keys["w"]) {
-        player.position.z -= 0.1;
+        player.position.z += forwardX * 0.1;
     }
     if (keys["s"]) {
         player.position.z += 0.1;
