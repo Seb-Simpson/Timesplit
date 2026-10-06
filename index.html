@@ -5,7 +5,44 @@
         <title>TimeSplit - 2026</title>
     </head>
     <body>
-        <canvas id="canvas" width="1250" height="620"></canvas>
-        <script src="game.js"></script>
+        <script type="module">
+            import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
+// World
+const scene = new THREE.Scene();
+// Camera
+const camera = new THREE.PerspectiveCamera(
+75, // field of view
+window.innerWidth / window.innerHeight,
+0.1,
+1000
+);
+// Move camera back so we can see things
+camera.position.z = 5;
+// Renderer
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(
+window.innerWidth,
+window.innerHeight
+);
+document.body.appendChild(renderer.domElement);
+// Cube
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshBasicMaterial({
+color: 0x00ff00
+});
+const cube = new THREE.Mesh(
+geometry,
+material
+);
+scene.add(cube);
+// Game Loop
+function animate() {
+requestAnimationFrame(animate);
+cube.rotation.y += 0.01;
+renderer.render(scene, camera);
+}
+animate();
+        </script>
+    
     </body>
 </html>

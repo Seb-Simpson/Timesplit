@@ -4,3 +4,6 @@ const width=canvas.width
 const height=canvas.height
 ctx.fillRect(0,0,width,height);
 position=(0,0)
+let playerX = 0;
+            playerX++;
+            console.log(playerX);
