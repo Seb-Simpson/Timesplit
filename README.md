@@ -7,8 +7,8 @@ General:
 
 
 Seb:
-- Pointer lock, walking in camera direction
-- FIX WALKING FORWARDS
+- Objects and classes and object not at origin
+Textures
 
 Jacob:
 - Css and interface?

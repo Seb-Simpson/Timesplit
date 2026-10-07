@@ -59,6 +59,18 @@ function move(speed) {
         direction.multiplyScalar(speed)
     );
 }
+//Move left or right
+function strafe(speed) {
+    const direction= new THREE.Vector3();
+    const right = new THREE.Vector3();
+    camera.getWorldDirection(direction);
+    direction.y = 0;
+    direction.normalize();
+    right.crossVectors(direction, new THREE.Vector3(0,1,0));
+    player.position.add(
+        right.multiplyScalar(speed)
+    );
+}
 
 // Renderer
 const renderer = new THREE.WebGLRenderer();
@@ -94,10 +106,10 @@ function animate() {
         move(-0.1);
     }
     if (keys["a"]) {
-        player.position.x -=0.1
+        strafe(-0.1)
     }
     if (keys["d"]) {
-        player.position.x += 0.1
+        strafe(0.1)
     }
     if (keys[" "] && onground) {
         velocityY=0.2
