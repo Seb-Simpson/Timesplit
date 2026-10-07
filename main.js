@@ -1,4 +1,5 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'https://unpkg.com/three@0.170.0/examples/jsm/loaders/GLTFLoader.js';
 
 let onground= true
 
@@ -19,6 +20,24 @@ window.addEventListener("keyup", function(event) {
 
 // World
 const scene = new THREE.Scene();
+const loader = new GLTFLoader();
+
+//Model loading
+loader.load(
+    'giant_low_poly_tree.glb',
+    function(gltf){
+        const model = gltf.scene;
+        model.position.set(5,0,10)
+        model.scale.set(2,2,2);
+        model.traverse((child)=> {
+        if (child.isMesh) {
+            child.material.color.set(0xff0000);
+        };
+        scene.add(gltf.scene);
+        console.log(gltf);
+    });
+    }
+)
 
 // Camera
 const player = new THREE.Object3D();
