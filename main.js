@@ -22,22 +22,23 @@ window.addEventListener("keyup", function(event) {
 const scene = new THREE.Scene();
 const loader = new GLTFLoader();
 
+//lighting
+const ambientlight = new THREE.AmbientLight(0xffffff, 3);
+scene.add(ambientlight);
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 3);
+dirLight.position.set(10,10,10);
+scene.add(dirLight)
+
 //Model loading
 loader.load(
     'giant_low_poly_tree.glb',
     function(gltf){
         const model = gltf.scene;
         model.position.set(5,0,10)
-        model.scale.set(2,2,2);
-        model.traverse((child)=> {
-        if (child.isMesh) {
-            child.material.color.set(0xff0000);
-        };
+        model.scale.set(1,1,1);
         scene.add(gltf.scene);
-        console.log(gltf);
-    });
-    }
-)
+       });
 
 // Camera
 const player = new THREE.Object3D();
@@ -61,7 +62,6 @@ window.addEventListener("mousemove",function(event) {
     pitch = Math.max( -Math.PI / 2, Math.min(Math.PI / 2, pitch));
     camera.rotation.x = pitch;
     player.rotation.y = yaw;
-    console.log(player.position, camera.position);
 });
 
 // Move camera back so we can see things
