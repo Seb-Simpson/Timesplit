@@ -48,6 +48,18 @@ window.addEventListener("mousemove",function(event) {
 // Move camera back so we can see things
 player.position.z = 5;
 
+//Camera direction for movement - Function for movement
+
+function move(speed) {
+    const direction = new THREE.Vector3();
+    camera.getWorldDirection(direction);
+    direction.y = 0
+    direction.normalize();
+    player.position.add(
+        direction.multiplyScalar(speed)
+    );
+}
+
 // Renderer
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -76,10 +88,10 @@ function animate() {
         
     // Mouse movement
     if (keys["w"]) {
-        player.position.z += forwardX * 0.1;
+        move(0.1)
     }
     if (keys["s"]) {
-        player.position.z += 0.1;
+        move(-0.1);
     }
     if (keys["a"]) {
         player.position.x -=0.1
