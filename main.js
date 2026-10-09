@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'https://unpkg.com/three@0.170.0/examples/jsm/loaders/GLTFLoader.js';
+import { Object } from "./object.js"
 
 let onground= true
 
@@ -20,7 +20,6 @@ window.addEventListener("keyup", function(event) {
 
 // World
 const scene = new THREE.Scene();
-const loader = new GLTFLoader();
 
 //lighting
 const ambientlight = new THREE.AmbientLight(0xffffff, 3);
@@ -31,14 +30,7 @@ dirLight.position.set(10,10,10);
 scene.add(dirLight)
 
 //Model loading
-loader.load(
-    'giant_low_poly_tree.glb',
-    function(gltf){
-        const model = gltf.scene;
-        model.position.set(5,0,10)
-        model.scale.set(1,1,1);
-        scene.add(gltf.scene);
-       });
+let tree = new Object(scene, "giant_low_poly_tree", [2, 0, 1])
 
 // Camera
 const player = new THREE.Object3D();
