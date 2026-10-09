@@ -11,11 +11,11 @@ let yaw = 0;
 let pitch = 0;
 
 window.addEventListener("keydown", function(event) {
-    keys[event.key] =true
+    keys[event.key] = true
 });
 
 window.addEventListener("keyup", function(event) {
-    keys[event.key] =false
+    keys[event.key] = false
 });
 
 // World
@@ -67,6 +67,7 @@ function move(speed) {
         direction.multiplyScalar(speed)
     );
 }
+
 //Move left or right
 function strafe(speed) {
     const direction= new THREE.Vector3();
@@ -105,9 +106,9 @@ scene.add(floor)
 //Model loading
 const trees = 20
 for (let index = 0; index < trees; index++) {
-    let x = (Math.random() * floorLengthX) - (floorLengthX / 2)
-    let z = (Math.random() * floorLengthZ) - (floorLengthZ / 2)
-    let tree = new Object(scene, "giant_low_poly_tree", [x, 0, z])
+    let x = (Math.random() * floorLengthX) - (floorLengthX / 2);
+    let z = (Math.random() * floorLengthZ) - (floorLengthZ / 2);
+    let tree = new Object(scene, "giant_low_poly_tree", [x, 0, z]);
 }
 
 // Game Loop
