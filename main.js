@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'https://unpkg.com/three@0.170.0/examples/jsm/loaders/GLTFLoader.js';
+import { Object } from "./object.js"
 
 let onground= true
 
@@ -11,16 +11,15 @@ let yaw = 0;
 let pitch = 0;
 
 window.addEventListener("keydown", function(event) {
-    keys[event.key] =true
+    keys[event.key] = true
 });
 
 window.addEventListener("keyup", function(event) {
-    keys[event.key] =false
+    keys[event.key] = false
 });
 
 // World
 const scene = new THREE.Scene();
-const loader = new GLTFLoader();
 
 //lighting
 const ambientlight = new THREE.AmbientLight(0xffffff, 3);
@@ -30,24 +29,14 @@ const dirLight = new THREE.DirectionalLight(0xffffff, 3);
 dirLight.position.set(10,10,10);
 scene.add(dirLight)
 
-//Model loading
-loader.load(
-    'giant_low_poly_tree.glb',
-    function(gltf){
-        const model = gltf.scene;
-        model.position.set(5,0,10)
-        model.scale.set(1,1,1);
-        scene.add(gltf.scene);
-       });
-
 // Camera
 const player = new THREE.Object3D();
 scene.add(player);
 const camera = new THREE.PerspectiveCamera(
-60, // field of view
-window.innerWidth / window.innerHeight,
-0.1,
-1000
+    60, // field of view
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
 );
 
 player.add(camera)
@@ -79,6 +68,7 @@ function move(speed) {
         direction.multiplyScalar(speed)
     );
 }
+
 //Move left or right
 function strafe(speed) {
     const direction= new THREE.Vector3();
@@ -107,17 +97,26 @@ cube.position.set(0,1,0)
 scene.add(cube);
 
 // Floor
-const floorGeometry = new THREE.PlaneGeometry(100,100);
+const floorLengthX = 50
+const floorLengthZ = 50
+const floorGeometry = new THREE.PlaneGeometry(floorLengthX, floorLengthZ);
 const floorMaterial = new THREE.MeshBasicMaterial({color:0x00aa00});
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
-floor.position.y = 0; 
-scene.add(floor)   
+scene.add(floor)
+
+//Model loading
+const trees = 20
+for (let index = 0; index < trees; index++) {
+    let x = (Math.random() * floorLengthX) - (floorLengthX / 2);
+    let z = (Math.random() * floorLengthZ) - (floorLengthZ / 2);
+    let tree = new Object(scene, "giant_low_poly_tree", [x, 0, z]);
+}
 
 // Game Loop
 function animate() {
     let forwardX = -Math.sin(yaw);
-    let forwardZ = -Math.cos(yaw); // What's this used for @Seb???
+    let forwardZ = -Math.cos(yaw);
         
     // Mouse movement
     if (keys["w"]) {
