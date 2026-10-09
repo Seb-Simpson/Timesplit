@@ -66,6 +66,7 @@ window.addEventListener("mousemove",function(event) {
 
 // Move camera back so we can see things
 player.position.z = 5;
+player.position.y = 1;
 
 //Camera direction for movement - Function for movement
 
@@ -102,6 +103,7 @@ document.body.appendChild(renderer.domElement);
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
 const cube = new THREE.Mesh(geometry, material);
+cube.position.set(0,1,0)
 scene.add(cube);
 
 // Floor
@@ -109,7 +111,7 @@ const floorGeometry = new THREE.PlaneGeometry(100,100);
 const floorMaterial = new THREE.MeshBasicMaterial({color:0x00aa00});
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
-floor.position.y = -1; 
+floor.position.y = 0; 
 scene.add(floor)   
 
 // Game Loop
