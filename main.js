@@ -29,17 +29,14 @@ const dirLight = new THREE.DirectionalLight(0xffffff, 3);
 dirLight.position.set(10,10,10);
 scene.add(dirLight)
 
-//Model loading
-let tree = new Object(scene, "giant_low_poly_tree", [2, 0, 1])
-
 // Camera
 const player = new THREE.Object3D();
 scene.add(player);
 const camera = new THREE.PerspectiveCamera(
-60, // field of view
-window.innerWidth / window.innerHeight,
-0.1,
-1000
+    60, // field of view
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
 );
 
 player.add(camera)
@@ -97,17 +94,26 @@ const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
 // Floor
-const floorGeometry = new THREE.PlaneGeometry(100,100);
+const floorLengthX = 50
+const floorLengthZ = 50
+const floorGeometry = new THREE.PlaneGeometry(floorLengthX, floorLengthZ);
 const floorMaterial = new THREE.MeshBasicMaterial({color:0x00aa00});
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 floor.rotation.x = -Math.PI / 2;
-floor.position.y = -1; 
-scene.add(floor)   
+scene.add(floor)
+
+//Model loading
+const trees = 20
+for (let index = 0; index < trees; index++) {
+    let x = (Math.random() * floorLengthX) - (floorLengthX / 2)
+    let z = (Math.random() * floorLengthZ) - (floorLengthZ / 2)
+    let tree = new Object(scene, "giant_low_poly_tree", [x, 0, z])
+}
 
 // Game Loop
 function animate() {
     let forwardX = -Math.sin(yaw);
-    let forwardZ = -Math.cos(yaw); // What's this used for @Seb???
+    let forwardZ = -Math.cos(yaw);
         
     // Mouse movement
     if (keys["w"]) {
