@@ -8,8 +8,8 @@ General:
 
 Seb:
 - Objects and classes and object not at origin
-Textures
+- Textures
+- Fix diagonal movement
 
 Jacob:
-- Css and interface?
-- Crosshair
+- Grid system
