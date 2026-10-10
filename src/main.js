@@ -91,6 +91,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 //Background
+scene.background = new THREE.Color(0x87CEEB)
 
 // Map
 const colours = [0x14900f, 0x3cb338, 0x06be00]
