@@ -58,6 +58,7 @@ window.addEventListener("mousemove",function(event) {
 
 // Move camera back so we can see things
 player.position.z = 5;
+player.position.y = 1;
 
 //Camera direction for movement - Function for movement
 
