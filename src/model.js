@@ -8,7 +8,7 @@ export class Model extends Object {
         super(scene);
 
         loader.load(
-            `${fileName}.glb`,
+            `public/assets/models/${fileName}.glb`,
             (gltf) => {
                 let model = gltf.scene;
                 model.scale.set(scale, scale, scale)
