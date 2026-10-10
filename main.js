@@ -1,5 +1,8 @@
 import * as THREE from 'three';
-import { Object } from "./object.js"
+import * as CONSTANTS from "./settings.js"
+import { Model } from "./model.js";
+import { Block } from "./block.js";
+import { randfloat, randint } from "./helper.js"
 
 let onground= true
 
@@ -88,27 +91,26 @@ document.body.appendChild(renderer.domElement);
 
 //Background
 
-// Cube
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
-
-// Floor
-const floorLengthX = 50
-const floorLengthZ = 50
-const floorGeometry = new THREE.PlaneGeometry(floorLengthX, floorLengthZ);
-const floorMaterial = new THREE.MeshBasicMaterial({color:0x00aa00});
-const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-floor.rotation.x = -Math.PI / 2;
-scene.add(floor)
+// Map
+const colours = [0x14900f, 0x3cb338, 0x06be00]
+const lengthX = CONSTANTS.mapLengthX / CONSTANTS.blockSize;
+const lengthZ = CONSTANTS.mapLengthZ / CONSTANTS.blockSize;
+for (let gridX = 0; gridX < lengthX; gridX++) {
+    for (let gridZ = 0; gridZ < lengthZ; gridZ++) {
+        let x = gridX * CONSTANTS.blockSize;
+        let z = gridZ * CONSTANTS.blockSize;
+        new Block(scene, [x, -(CONSTANTS.blockSize / 2), z], colours[randint(0, 3)])
+    }
+}
 
 //Model loading
-const trees = 20
+const trees = 7
 for (let index = 0; index < trees; index++) {
-    let x = (Math.random() * floorLengthX) - (floorLengthX / 2);
-    let z = (Math.random() * floorLengthZ) - (floorLengthZ / 2);
-    let tree = new Object(scene, "giant_low_poly_tree", [x, 0, z]);
+    const x = randint(0, CONSTANTS.mapLengthX);
+    const z = randint(0, CONSTANTS.mapLengthZ);
+    const angle = randfloat(0, 2 * Math.PI);
+    const scale = randfloat(0.4, 0.7);
+    new Model(scene, "giant_low_poly_tree", [x, 0, z], [0, angle, 0], scale);
 }
 
 // Game Loop
@@ -143,7 +145,6 @@ function animate() {
         onground=true
     }
 
-    cube.rotation.y += 0.005;
     renderer.render(scene, camera);
 
     requestAnimationFrame(animate);

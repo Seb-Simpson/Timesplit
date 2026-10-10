@@ -1,55 +1,49 @@
-import { GLTFLoader } from 'https://unpkg.com/three@0.170.0/examples/jsm/loaders/GLTFLoader.js';
-
-const loader = new GLTFLoader();
-
 export class Object {
-    constructor(scene, fileName, position = [0, 0, 0], rotation = [0, 0, 0]) {
+    constructor(scene) {
         this.scene = scene;
+    }
 
-        loader.load(
-            `${fileName}.glb`,
-            (gltf) => {
-                this.model = gltf.scene;
-                this.model.position.set(...position)
-                this.model.rotation.set(...rotation)
-                this.scene.add(this.model);
-            }
-        );
+    setUp(object, position = [0, 0, 0], rotation = [0, 0, 0]) {
+        this.object = object;
+        this.scene.add(this.object)
+
+        this.setPosition(...position);
+        this.setRotation(...rotation);
     }
 
     setPosition(x = null, y = null, z = null) {
-        if (!this.model) return;
+        if (!this.object) return;
 
-        if (x === null) x = this.model.position.x;
-        if (y === null) y = this.model.position.y;
-        if (z === null) z = this.model.position.z;
+        if (x === null) x = this.object.position.x;
+        if (y === null) y = this.object.position.y;
+        if (z === null) z = this.object.position.z;
 
-        this.model.rotation.set(x, y, z);
+        this.object.position.set(x, y, z);
     }
 
     move(x = 0, y = 0, z = 0) {
-        if (!this.model) return;
+        if (!this.object) return;
 
-        this.model.position.x += x
-        this.model.position.y += y
-        this.model.position.z += z
+        this.object.position.x += x
+        this.object.position.y += y
+        this.object.position.z += z
     }
 
     setRotation(x = null, y = null, z = null) {
-        if (!this.model) return;
+        if (!this.object) return;
 
-        if (x === null) x = this.model.rotation.x;
-        if (y === null) y = this.model.rotation.y;
-        if (z === null) z = this.model.rotation.z;
+        if (x === null) x = this.object.rotation.x;
+        if (y === null) y = this.object.rotation.y;
+        if (z === null) z = this.object.rotation.z;
 
-        this.model.rotation.set(x, y, z);
+        this.object.rotation.set(x, y, z);
     }
 
     rotate(x = 0, y = 0, z = 0) {
-        if (!this.model) return;
+        if (!this.object) return;
 
-        this.model.rotation.x += x
-        this.model.rotation.y += y
-        this.model.rotation.z += z
+        this.object.rotation.x += x
+        this.object.rotation.y += y
+        this.object.rotation.z += z
     }
 }
