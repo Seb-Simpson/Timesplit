@@ -110,7 +110,7 @@ for (let index = 0; index < trees; index++) {
     const x = randint(0, CONSTANTS.mapLengthX);
     const z = randint(0, CONSTANTS.mapLengthZ);
     const angle = randfloat(0, 2 * Math.PI);
-    const scale = randfloat(0.4, 0.7);
+    const scale = randfloat(1, 1.5);
     new Model(scene, "giant_low_poly_tree", [x, 0, z], [0, angle, 0], scale);
 }
 
