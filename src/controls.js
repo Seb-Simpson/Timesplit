@@ -14,11 +14,11 @@ export class Controls {
     }
 
     onKeyDown = (event) => {
-        this.keys[event.key] = true;
+        this.keys[event.key.toLowerCase()] = true;
     }
 
     onKeyUp = (event) => {
-        this.keys[event.key] = false;
+        this.keys[event.key.toLowerCase()] = false;
     }
 
     onMouseMove = (event) => {
@@ -38,8 +38,9 @@ export class Controls {
     update() {
         const forwardInput = Number(this.query("w")) - Number(this.query("s"));
         const strafeInput = Number(this.query("d")) - Number(this.query("a"));
+        const sprint = this.query("shift") && this.query("w");
 
-        this.player.move(forwardInput, strafeInput);
+        this.player.move(forwardInput, strafeInput, sprint);
 
         if (this.query(" ")) {
             this.player.jump()

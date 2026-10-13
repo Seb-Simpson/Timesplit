@@ -11,8 +11,8 @@ export class Player extends PhysicsObject{
         this.object3D.add(camera);
 
         this.jumpStrength = 10;
-        this.speed = 10;
-        this.sprint = false;
+        this.speed = 6;
+        this.sprintSpeed = 10;
 
         this.object3D.position.y = 1;
         this.camera.position.y = 0;
@@ -28,7 +28,7 @@ export class Player extends PhysicsObject{
         this.onground = false;
     }
 
-    move(forwardInput, strafeInput) {
+    move(forwardInput, strafeInput, sprint = false) {
         if (!this.onGround) return; // prevents midair movement, can be removed
 
         const forward = new THREE.Vector3();
@@ -52,8 +52,10 @@ export class Player extends PhysicsObject{
             direction.normalize();
         }
 
-        this.velocity.x = direction.x * this.speed;
-        this.velocity.z = direction.z * this.speed;
+        const speed = sprint ? this.sprintSpeed : this.speed
+
+        this.velocity.x = direction.x * speed;
+        this.velocity.z = direction.z * speed;
     }
 
     look(movementX, movementY) {
