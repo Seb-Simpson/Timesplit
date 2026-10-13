@@ -1,28 +1,48 @@
+// Imports
 import * as THREE from 'three';
 import * as CONSTANTS from "./settings.js"
 import { Model } from "./model.js";
 import { Block } from "./block.js";
 import { randfloat, randint } from "./helper.js"
+import { Player } from './player.js';
 
-let onground= true
-
-//Constants
-const mouse={};
+// Controls
 const keys={};
-let velocityY = 0;
+const mouseSensitivity = 0.001;
 let yaw = 0;
 let pitch = 0;
 
 window.addEventListener("keydown", function(event) {
-    keys[event.key] = true
+    keys[event.key] = true;
 });
 
 window.addEventListener("keyup", function(event) {
-    keys[event.key] = false
+    keys[event.key] = false;
 });
 
-// World
+window.addEventListener("mousemove", (event) => {
+    if (document.pointerLockElement !== renderer.domElement) return;
+
+    yaw -= event.movementX * mouseSensitivity;
+    pitch -= event.movementY * mouseSensitivity;
+
+    pitch = THREE.MathUtils.clamp(pitch, -Math.PI / 2 + 0.01, Math.PI / 2 - 0.01);
+
+    player.object3D.rotation.y = yaw;
+    camera.rotation.x = pitch;
+})
+
+// Scene
 const scene = new THREE.Scene();
+
+// Renderer
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+renderer.domElement.addEventListener("click", () => {
+    renderer.domElement.requestPointerLock();
+})
 
 //lighting
 const ambientlight = new THREE.AmbientLight(0xffffff, 3);
@@ -32,68 +52,10 @@ const dirLight = new THREE.DirectionalLight(0xffffff, 3);
 dirLight.position.set(10,10,10);
 scene.add(dirLight)
 
-// Camera
-const player = new THREE.Object3D();
-scene.add(player);
-const camera = new THREE.PerspectiveCamera(
-    60, // field of view
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-);
-
-player.add(camera)
-
-document.addEventListener("click", function() {
-    document.body.requestPointerLock();
-})
-
-window.addEventListener("mousemove",function(event) {
-    yaw -= event.movementX *0.001;
-    pitch -= event.movementY *0.001;
-    pitch = Math.max( -Math.PI / 2, Math.min(Math.PI / 2, pitch));
-    camera.rotation.x = pitch;
-    player.rotation.y = yaw;
-});
-
-// Move camera back so we can see things
-player.position.z = 5;
-player.position.y = 1;
-
-//Camera direction for movement - Function for movement
-
-function move(speed) {
-    const direction = new THREE.Vector3();
-    camera.getWorldDirection(direction);
-    direction.y = 0
-    direction.normalize();
-    player.position.add(
-        direction.multiplyScalar(speed)
-    );
-}
-
-//Move left or right
-function strafe(speed) {
-    const direction= new THREE.Vector3();
-    const right = new THREE.Vector3();
-    camera.getWorldDirection(direction);
-    direction.y = 0;
-    direction.normalize();
-    right.crossVectors(direction, new THREE.Vector3(0,1,0));
-    player.position.add(
-        right.multiplyScalar(speed)
-    );
-}
-
-// Renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
 //Background
 scene.background = new THREE.Color(0x87CEEB)
 
-// Map
+// World
 const colours = [0x14900f, 0x3cb338, 0x06be00]
 const lengthX = CONSTANTS.mapLengthX / CONSTANTS.blockSize;
 const lengthZ = CONSTANTS.mapLengthZ / CONSTANTS.blockSize;
@@ -105,7 +67,7 @@ for (let gridX = 0; gridX < lengthX; gridX++) {
     }
 }
 
-//Model loading
+// Model loading
 const trees = 7
 for (let index = 0; index < trees; index++) {
     const x = randint(0, CONSTANTS.mapLengthX);
@@ -115,41 +77,41 @@ for (let index = 0; index < trees; index++) {
     new Model(scene, "giant_low_poly_tree", [x, 0, z], [0, angle, 0], scale);
 }
 
+// Camera
+const camera = new THREE.PerspectiveCamera(
+    60, // field of view
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
+
+// Player
+const player = new Player(scene, camera);
+const x = CONSTANTS.mapLengthX / 2;
+const z = CONSTANTS.mapLengthZ / 2;
+player.object3D.position.set(x, 0, z);
+
+// Clock for dt (delta time)
+const clock = new THREE.Clock();
+
 // Game Loop
 function animate() {
-    let forwardX = -Math.sin(yaw);
-    let forwardZ = -Math.cos(yaw);
-        
-    // Mouse movement
-    if (keys["w"]) {
-        move(0.1)
-    }
-    if (keys["s"]) {
-        move(-0.1);
-    }
-    if (keys["a"]) {
-        strafe(-0.1)
-    }
-    if (keys["d"]) {
-        strafe(0.1)
-    }
-    if (keys[" "] && onground) {
-        velocityY=0.2
-        onground=false
+    requestAnimationFrame(animate);
+
+    const dt = Math.min(clock.getDelta(), 0.05);
+
+    const forwardInput = Number(Boolean(keys["w"])) - Number(Boolean(keys["s"]));
+    const strafeInput = Number(Boolean(keys["d"])) - Number(Boolean(keys["a"]));
+
+    player.move(forwardInput, strafeInput);
+
+    if (keys[" "]) {
+        player.jump();
     }
 
-    velocityY -=0.01;
-    camera.position.y += velocityY;
-
-    if (camera.position.y < 1) {
-        camera.position.y = 1;
-        velocityY = 0
-        onground=true
-    }
+    player.update(dt);
 
     renderer.render(scene, camera);
-
-    requestAnimationFrame(animate);
 }
 
 animate();
