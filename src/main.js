@@ -15,10 +15,6 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-renderer.domElement.addEventListener("click", () => {
-    renderer.domElement.requestPointerLock();
-})
-
 //lighting
 const ambientlight = new THREE.AmbientLight(0xffffff, 3);
 scene.add(ambientlight);
