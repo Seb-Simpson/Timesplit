@@ -11,11 +11,14 @@ export class PhysicsObject {
         this.velocity = new THREE.Vector3();
 
         this.onGround = false;
+        this.frozen = false;
         
         this.scene.add(this.object3D);
     }
 
     update(dt) {
+        if (this.frozen) return;
+
         this.velocity.y -= CONSTANTS.gravity * dt;
 
         this.object3D.position.addScaledVector(this.velocity, dt);

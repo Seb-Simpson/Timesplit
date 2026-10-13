@@ -5,32 +5,7 @@ import { Model } from "./model.js";
 import { Block } from "./block.js";
 import { randfloat, randint } from "./helper.js"
 import { Player } from './player.js';
-
-// Controls
-const keys={};
-const mouseSensitivity = 0.001;
-let yaw = 0;
-let pitch = 0;
-
-window.addEventListener("keydown", function(event) {
-    keys[event.key] = true;
-});
-
-window.addEventListener("keyup", function(event) {
-    keys[event.key] = false;
-});
-
-window.addEventListener("mousemove", (event) => {
-    if (document.pointerLockElement !== renderer.domElement) return;
-
-    yaw -= event.movementX * mouseSensitivity;
-    pitch -= event.movementY * mouseSensitivity;
-
-    pitch = THREE.MathUtils.clamp(pitch, -Math.PI / 2 + 0.01, Math.PI / 2 - 0.01);
-
-    player.object3D.rotation.y = yaw;
-    camera.rotation.x = pitch;
-})
+import { Controls } from './controls.js';
 
 // Scene
 const scene = new THREE.Scene();
@@ -91,6 +66,9 @@ const x = CONSTANTS.mapLengthX / 2;
 const z = CONSTANTS.mapLengthZ / 2;
 player.object3D.position.set(x, 0, z);
 
+// Controls
+const controls = new Controls(player, renderer);
+
 // Clock for dt (delta time)
 const clock = new THREE.Clock();
 
@@ -100,15 +78,7 @@ function animate() {
 
     const dt = Math.min(clock.getDelta(), 0.05);
 
-    const forwardInput = Number(Boolean(keys["w"])) - Number(Boolean(keys["s"]));
-    const strafeInput = Number(Boolean(keys["d"])) - Number(Boolean(keys["a"]));
-
-    player.move(forwardInput, strafeInput);
-
-    if (keys[" "]) {
-        player.jump();
-    }
-
+    controls.update();
     player.update(dt);
 
     renderer.render(scene, camera);

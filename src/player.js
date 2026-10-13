@@ -12,9 +12,13 @@ export class Player extends PhysicsObject{
 
         this.jumpStrength = 10;
         this.speed = 10;
+        this.sprint = false;
 
         this.object3D.position.y = 1;
         this.camera.position.y = 0;
+
+        this.pitch = 0;
+        this.yaw = 0;
     }
 
     jump() {
@@ -50,5 +54,15 @@ export class Player extends PhysicsObject{
 
         this.velocity.x = direction.x * this.speed;
         this.velocity.z = direction.z * this.speed;
+    }
+
+    look(movementX, movementY) {
+        this.yaw -= movementX;
+        this.pitch -= movementY;
+
+        this.pitch = THREE.MathUtils.clamp(this.pitch, -Math.PI / 2 + 0.01, Math.PI / 2 + 0.01);
+
+        this.object3D.rotation.y = this.yaw;
+        this.camera.rotation.x = this.pitch;
     }
 }
