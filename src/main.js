@@ -68,12 +68,15 @@ const controls = new Controls(player, renderer);
 // Clock for dt (delta time)
 const clock = new THREE.Clock();
 
+// Time warp
+export const timeWarp = 1;
+
 // Game Loop
 function animate() {
     requestAnimationFrame(animate);
 
     let dt = Math.min(clock.getDelta(), 0.05);
-    dt *= 0.5;
+    dt *= timeWarp;
 
     controls.update();
     player.update(dt);
