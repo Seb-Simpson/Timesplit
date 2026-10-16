@@ -11,7 +11,7 @@ export class Player extends PhysicsObject{
         this.object3D.add(camera);
 
         this.jumpStrength = 10;
-        this.speed = 6;
+        this.speed = 5;
         this.sprintSpeed = 10;
 
         this.object3D.position.y = 1;

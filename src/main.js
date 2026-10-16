@@ -72,7 +72,8 @@ const clock = new THREE.Clock();
 function animate() {
     requestAnimationFrame(animate);
 
-    const dt = Math.min(clock.getDelta(), 0.05);
+    let dt = Math.min(clock.getDelta(), 0.05);
+    dt *= 0.5;
 
     controls.update();
     player.update(dt);
