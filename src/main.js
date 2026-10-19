@@ -39,7 +39,7 @@ for (let gridX = 0; gridX < lengthX; gridX++) {
 }
 
 // Model loading
-const trees = 7
+const trees = 100
 for (let index = 0; index < trees; index++) {
     const x = randint(0, CONSTANTS.mapLengthX);
     const z = randint(0, CONSTANTS.mapLengthZ);
@@ -53,7 +53,7 @@ const camera = new THREE.PerspectiveCamera(
     60, // field of view
     window.innerWidth / window.innerHeight,
     0.1,
-    1000
+    100
 );
 
 // Player

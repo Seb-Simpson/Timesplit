@@ -12,7 +12,7 @@ export class Player extends PhysicsObject{
 
         this.jumpStrength = 8;
         this.speed = 5;
-        this.sprintBonus = 0.8; // Decimal percentage of this.speed
+        this.sprintBonus = 1; // Decimal percentage of this.speed
 
         this.object3D.position.y = 1;
         this.camera.position.y = 0;
