@@ -59,14 +59,14 @@ async function main() {
     const blockMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
     const blockMesh = new THREE.Mesh(blockGeometry, blockMaterial);
     const blockColliderDesc = RAPIER.ColliderDesc.cuboid(5, 0.5, 5);
-    const block = new PhysicsObject(scene, world, blockMesh, blockColliderDesc, [0, -5, 0,], [0, 0, 0], [1, 1, 1], 1, true, 0, 0.8);
+    const block = new PhysicsObject(scene, world, blockMesh, blockColliderDesc, [0, 0, 0], [0, 0, 0], [1, 1, 1], 1, true, 0, 0.8);
 
     // Block
     const blockGeometry2 = new THREE.BoxGeometry(1, 1, 1);
     const blockMaterial2 = new THREE.MeshStandardMaterial({ color: 0x0000ff });
     const blockMesh2 = new THREE.Mesh(blockGeometry2, blockMaterial2);
     const blockColliderDesc2 = RAPIER.ColliderDesc.cuboid(0.5, 0.5, 0.5);
-    const block2 = new PhysicsObject(scene, world, blockMesh2, blockColliderDesc2, [2, -2, 0,], [0, 0, 0], [1, 1, 1], 1, false, 0, 0.8);
+    const block2 = new PhysicsObject(scene, world, blockMesh2, blockColliderDesc2, [2, 3, -2], [0, 0, 0], [1, 1, 1], 1, false, 0, 0.8);
 
     // Clock for dt (delta time)
     const clock = new THREE.Clock();

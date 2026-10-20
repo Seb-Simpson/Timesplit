@@ -5,7 +5,7 @@ import { PhysicsObject } from "./physicsObject.js";
 export class Player extends PhysicsObject {
     constructor(scene, world, mesh, camera) {
         const colliderDesc = RAPIER.ColliderDesc.cuboid(0.5, 1, 0.5);
-        super(scene, world, mesh, colliderDesc, [0, 10, 0], [0, 0, 0], [1, 1, 1], 1, false, 0, 0.8, true);
+        super(scene, world, mesh, colliderDesc, [0, 1, 0], [0, 0, 0], [1, 1, 1], 1, false, 0, 0.8, true);
 
         this.camera = camera;
         this.mesh.add(camera);
